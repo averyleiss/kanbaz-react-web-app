@@ -42,7 +42,7 @@ export default function KambazNavigation() {
          <span className={activeLink === "Dashboard" ? "text-danger" : "text-white"}>Dashboard</span>
       </Link><br />
       {/* Courses */}
-      <Link to="/Kambaz/Courses" id="wd-course-link"
+      <Link to="/Kambaz/Dashboard" id="wd-course-link"
          onClick={() => handleClick("Courses")}
          className={`list-group-item text-center border-0 
          ${activeLink === "Courses" ? "bg-white text-danger" : "bg-black text-white"}`}>
@@ -66,7 +66,7 @@ export default function KambazNavigation() {
          <span className={activeLink === "Inbox" ? "text-danger" : "text-white"}>Inbox</span>
       </Link><br />
       {/* Labs */}
-      <Link to="/Kambaz/Labs" id="wd-lab-link"
+      <Link to="/Kambaz/Labs/Lab1" id="wd-lab-link"
          onClick={() => handleClick("Labs")}
          className={`list-group-item text-center border-0 
          ${activeLink === "Labs" ? "bg-white text-danger" : "bg-black text-white"}`}>
