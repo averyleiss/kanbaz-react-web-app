@@ -2,7 +2,7 @@
 import Labs from "./Labs";
 import Kambaz from "./Kambaz";
 import KambazNavigation from "./Kambaz/Navigation";
-import Dashboard from "./Kambaz/Dashboard";
+import Dashboard from "./Kambaz/Dashboard/Dashboard";
 import Account from "./Kambaz/Account";
 import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
 
