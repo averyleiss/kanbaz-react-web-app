@@ -51,7 +51,11 @@ export default function Assignments() {
                   <BsGripVertical className="me-3 fs-3 text-secondary" />  
                   <LuNotebookPen className="me-4 fs-3 text-success" />  
                   <div className="flex-grow-1">
-                    <div className="fw-bold">A1</div>
+                    <div className="fw-bold">
+                    <a href="#/Kambaz/Courses/1234/Assignments/123" className="text-decoration-none text-black">
+                      A1
+                    </a>
+                    </div>
                     <div className="text-muted">
                       <span className="text-danger">Multiple Modules</span> |
                       <strong> Not available until</strong> May 6 at 12:00am | 
@@ -65,7 +69,11 @@ export default function Assignments() {
                   <BsGripVertical className="me-3 fs-3 text-secondary" />  
                   <LuNotebookPen className="me-4 fs-3 text-success" />  
                   <div className="flex-grow-1">
-                    <div className="fw-bold">A2</div>
+                    <div className="fw-bold">
+                    <a href="#/Kambaz/Courses/1234/Assignments/123" className="text-decoration-none text-black">
+                      A2
+                    </a>
+                    </div>
                     <div className="text-muted">
                       <span className="text-danger">Multiple Modules</span> |
                       <strong> Not available until</strong> May 13 at 12:00am |
@@ -79,7 +87,11 @@ export default function Assignments() {
                   <BsGripVertical className="me-3 fs-3 text-secondary" />  
                   <LuNotebookPen className="me-4 fs-3 text-success" />  
                   <div className="flex-grow-1">
-                    <div className="fw-bold">A3</div>
+                    <div className="fw-bold">
+                    <a href="#/Kambaz/Courses/1234/Assignments/123" className="text-decoration-none text-black">
+                    A3
+                    </a>
+                    </div>
                     <div className="text-muted">
                       <span className="text-danger">Multiple Modules</span> |
                       <strong> Not available until</strong> May 20 at 12:00am |

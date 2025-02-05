@@ -8,7 +8,7 @@ export default function Home() {
       <Row>
         {/* course content (modules) */}
         <Col md={9}>
-          <Modules showCourseStatus={false} /> {/* stops duplicate CourseStatus on this and mods page */}
+          <Modules/>
         </Col>
 
         {/* course status, gets hidden on small screen */}

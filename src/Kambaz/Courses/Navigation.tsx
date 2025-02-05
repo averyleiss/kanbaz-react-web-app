@@ -23,7 +23,7 @@ export default function CourseNavigation() {
       <Link to="/Kambaz/Courses/1234/Zoom" 
         id="wd-course-zoom-link"
         className={`list-group-item border border-0 ${location.pathname.includes("/Zoom") ? "active" : ""}`}>
-        Zoom
+        Zoom Meetings
       </Link>
       <Link to="/Kambaz/Courses/1234/Assignments" 
         id="wd-course-assignments-link"

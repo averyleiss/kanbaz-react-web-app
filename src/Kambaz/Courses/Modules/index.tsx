@@ -62,13 +62,6 @@ export default function Modules({ showCourseStatus = true }) {
             </ListGroup.Item>
           </ListGroup>
         </Col>
-
-        {/* only renders CourseStatus if showCourseStatus = T */}
-        {showCourseStatus && (
-          <Col md={3} className="d-none d-md-block">
-            <CourseStatus />
-          </Col>
-        )}
       </Row>
     </div>
   );
