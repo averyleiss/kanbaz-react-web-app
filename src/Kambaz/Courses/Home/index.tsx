@@ -8,10 +8,10 @@ export default function Home() {
       <Row>
         {/* course content (modules) */}
         <Col md={9}>
-          <Modules/>
+          <Modules />
         </Col>
 
-        {/* course status, gets hidden on small screen */}
+        {/* course status, gets hidden on small screens */}
         <Col md={3} className="d-none d-md-block">
           <CourseStatus />
         </Col>

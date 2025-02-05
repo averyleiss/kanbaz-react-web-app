@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 
 export default function CourseNavigation() {
-  const location = useLocation(); // ✅ Get the current route
+  const location = useLocation(); 
 
   return (
     <div id="wd-courses-navigation" className="wd list-group fs-5 rounded-0">

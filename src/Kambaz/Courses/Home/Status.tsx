@@ -6,18 +6,14 @@ import { Button } from "react-bootstrap";
 
 export default function CourseStatus() {
   return (
-    <div id="wd-course-status" className="border p-3 rounded bg-light" style={{ width: "350px" }}>
+    <div id="wd-course-status" className="border p-3 rounded">
       {/* course status title */}
       <h2 className="fs-5 mb-3">Course Status</h2>
 
-      {/* publish/unpublish buttons */}
+      {/* publish and unpublish Buttons */}
       <div className="d-flex">
         <div className="w-50 pe-1">
-          <Button
-            size="lg"
-            className="w-100 text-nowrap d-flex align-items-center justify-content-center"
-            style={{ backgroundColor: "#E0E0E0", color: "black", border: "none" }}
-          >
+          <Button variant="light" size="lg" className="w-100 text-nowrap d-flex align-items-center justify-content-center">
             <MdDoNotDisturbAlt className="me-2 fs-5" /> Unpublish
           </Button>
         </div>
@@ -28,56 +24,20 @@ export default function CourseStatus() {
         </div>
       </div>
 
-      {/* action buttons */}
-      <Button
-        size="lg"
-        className="w-100 mt-2 text-start d-flex align-items-center"
-        style={{ backgroundColor: "#E0E0E0", color: "black", border: "none" }}
-      >
-        <BiImport className="me-2 fs-5" /> Import Existing Content
-      </Button>
-      <Button
-        size="lg"
-        className="w-100 mt-2 text-start d-flex align-items-center"
-        style={{ backgroundColor: "#E0E0E0", color: "black", border: "none" }}
-      >
-        <LiaFileImportSolid className="me-2 fs-5" /> Import from Commons
-      </Button>
-      <Button
-        size="lg"
-        className="w-100 mt-2 text-start d-flex align-items-center"
-        style={{ backgroundColor: "#E0E0E0", color: "black", border: "none" }}
-      >
-        <FaHome className="me-2 fs-5" /> Choose Home Page
-      </Button>
-      <Button
-        size="lg"
-        className="w-100 mt-2 text-start d-flex align-items-center"
-        style={{ backgroundColor: "#E0E0E0", color: "black", border: "none" }}
-      >
-        <FaStream className="me-2 fs-5" /> View Course Screen
-      </Button>
-      <Button
-        size="lg"
-        className="w-100 mt-2 text-start d-flex align-items-center"
-        style={{ backgroundColor: "#E0E0E0", color: "black", border: "none" }}
-      >
-        <FaBullhorn className="me-2 fs-5" /> New Announcement
-      </Button>
-      <Button
-        size="lg"
-        className="w-100 mt-2 text-start d-flex align-items-center"
-        style={{ backgroundColor: "#E0E0E0", color: "black", border: "none" }}
-      >
-        <FaChartBar className="me-2 fs-5" /> New Analytics
-      </Button>
-      <Button
-        size="lg"
-        className="w-100 mt-2 text-start d-flex align-items-center"
-        style={{ backgroundColor: "#E0E0E0", color: "black", border: "none" }}
-      >
-        <FaBell className="me-2 fs-5" /> View Course Notifications
-      </Button>
+      {/* action buttons for course status with react icons */}
+      {[
+        { icon: <BiImport />, text: "Import Existing Content" },
+        { icon: <LiaFileImportSolid />, text: "Import from Commons" },
+        { icon: <FaHome />, text: "Choose Home Page" },
+        { icon: <FaStream />, text: "View Course Screen" },
+        { icon: <FaBullhorn />, text: "New Announcement" },
+        { icon: <FaChartBar />, text: "New Analytics" },
+        { icon: <FaBell />, text: "View Course Notifications" },
+      ].map(({ icon, text }, index) => (
+        <Button key={index} variant="light" size="lg" className="w-100 mt-2 text-start d-flex align-items-center">
+          {icon} <span className="ms-2">{text}</span>
+        </Button>
+      ))}
     </div>
   );
 }

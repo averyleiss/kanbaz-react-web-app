@@ -5,14 +5,12 @@ import GreenCheckmark from "./GreenCheckmark";
 import { FaPlus } from "react-icons/fa6";
 import ModulesControls from "./ModulesControls";
 import LessonControlButtons from "./LessonControlButtons";
-import CourseStatus from "../Home/Status";
 
-export default function Modules({ showCourseStatus = true }) {  
-  // had to add this prop bc i was having issues with duplicating the course status bar on the home and modules page 
+export default function Modules() {
   return (
     <div className="container-fluid p-4">
       <Row>
-        {/* Modules content */}
+        {/* modules content */}
         <Col md={9}>
           <ModulesControls /><br /><br /><br /><br />
           <ListGroup className="rounded-0" id="wd-modules">
@@ -22,21 +20,20 @@ export default function Modules({ showCourseStatus = true }) {
                   <BsGripVertical className="me-2 fs-3" /> Week 1 
                 </div>
                 <div className="d-flex align-items-center"> 
-                  <GreenCheckmark /> 
-                  <FaPlus className="ms-3" /> 
+                  <GreenCheckmark />
+                  <FaPlus className="ms-3" />
                   <FaEllipsisV className="ms-3" />
                 </div>
               </div>
               <ListGroup className="wd-lessons rounded-0">
-                <ListGroup.Item className="wd-lesson p-3 ps-1">
-                  <BsGripVertical className="me-2 fs-3" /> LEARNING OBJECTIVES <LessonControlButtons />
-                </ListGroup.Item>
-                <ListGroup.Item className="wd-lesson p-3 ps-1">
-                  <BsGripVertical className="me-2 fs-3" /> Introduction to the course <LessonControlButtons />
-                </ListGroup.Item>
-                <ListGroup.Item className="wd-lesson p-3 ps-1">
-                  <BsGripVertical className="me-2 fs-3" /> Learn what is Web Development <LessonControlButtons />
-                </ListGroup.Item>
+                {["LEARNING OBJECTIVES", "Introduction to the course", "Learn what is Web Development"].map((lesson, index) => (
+                  <ListGroup.Item key={index} className="wd-lesson p-3 ps-1 d-flex align-items-center justify-content-between">
+                    <div className="d-flex align-items-center">
+                      <BsGripVertical className="me-2 fs-3" /> {lesson}
+                    </div>
+                    <LessonControlButtons />
+                  </ListGroup.Item>
+                ))}
               </ListGroup>
             </ListGroup.Item>
 
@@ -46,18 +43,20 @@ export default function Modules({ showCourseStatus = true }) {
                   <BsGripVertical className="me-2 fs-3" /> Week 2 
                 </div>
                 <div className="d-flex align-items-center"> 
-                  <GreenCheckmark /> 
-                  <FaPlus className="ms-3" /> 
+                  <GreenCheckmark />
+                  <FaPlus className="ms-3" />
                   <FaEllipsisV className="ms-3" />
                 </div>
               </div>
               <ListGroup className="wd-lessons rounded-0">
-                <ListGroup.Item className="wd-lesson p-3 ps-1">
-                  <BsGripVertical className="me-2 fs-3" /> LESSON 1 <LessonControlButtons />
-                </ListGroup.Item>
-                <ListGroup.Item className="wd-lesson p-3 ps-1">
-                  <BsGripVertical className="me-2 fs-3" /> LESSON 2 <LessonControlButtons />
-                </ListGroup.Item>
+                {["LESSON 1", "LESSON 2"].map((lesson, index) => (
+                  <ListGroup.Item key={index} className="wd-lesson p-3 ps-1 d-flex align-items-center justify-content-between">
+                    <div className="d-flex align-items-center">
+                      <BsGripVertical className="me-2 fs-3" /> {lesson}
+                    </div>
+                    <LessonControlButtons />
+                  </ListGroup.Item>
+                ))}
               </ListGroup>
             </ListGroup.Item>
           </ListGroup>

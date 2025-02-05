@@ -66,7 +66,7 @@ export default function KambazNavigation() {
          <span className={activeLink === "Inbox" ? "text-danger" : "text-white"}>Inbox</span>
       </Link><br />
       {/* Labs */}
-      <Link to="/Kambaz/Labs/Lab1" id="wd-lab-link"
+      <Link to="/Labs/Lab1" id="wd-lab-link"
          onClick={() => handleClick("Labs")}
          className={`list-group-item text-center border-0 
          ${activeLink === "Labs" ? "bg-white text-danger" : "bg-black text-white"}`}>
