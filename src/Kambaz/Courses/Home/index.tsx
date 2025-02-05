@@ -1,16 +1,21 @@
 import Modules from "../Modules";
 import CourseStatus from "./Status";
+import { Row, Col } from "react-bootstrap";
 
 export default function Home() {
   return (
-    <table id="wd-home">
-      <tr>
-        <td valign="top">
-          <Modules />
-        </td>
-        <td valign="top">
+    <div id="wd-home" className="container-fluid p-4">
+      <Row>
+        {/* course content (modules) */}
+        <Col md={9}>
+          <Modules showCourseStatus={false} /> {/* stops duplicate CourseStatus on this and mods page */}
+        </Col>
+
+        {/* course status, gets hidden on small screen */}
+        <Col md={3} className="d-none d-md-block">
           <CourseStatus />
-        </td>
-      </tr>
-    </table>
-);}
+        </Col>
+      </Row>
+    </div>
+  );
+}
