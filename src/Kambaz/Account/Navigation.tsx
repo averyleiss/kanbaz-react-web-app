@@ -8,8 +8,7 @@ export default function AccountNavigation() {
       <Link
         to="/Kambaz/Account/Signin"
         id="wd-account-signin-link"
-        className={`list-group-item border-0 ${location.pathname.includes("/Signin") ? "active" : ""}`}
-      >
+        className={`list-group-item border-0 ${location.pathname.includes("/Signin") ? "active" : ""}`}>
         Sign In
       </Link>
       <Link
