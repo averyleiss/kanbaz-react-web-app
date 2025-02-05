@@ -34,6 +34,6 @@ export default function Profile() {
       <Link to="/Kambaz/Account/Signin" className="btn btn-danger w-100">
       Sign Out
       </Link>
-    </Container>
+    </Container> 
   );
 }
