@@ -1,45 +1,33 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 export default function CourseNavigation() {
-  const location = useLocation(); 
+  const { cid } = useParams();
+  const { pathname } = useLocation();
+
+  const links = [
+    { label: "Home", path: `/Kambaz/Courses/${cid}/Home` },
+    { label: "Modules", path: `/Kambaz/Courses/${cid}/Modules` },
+    { label: "Piazza", path: `/Kambaz/Courses/${cid}/Piazza` },
+    { label: "Assignments", path: `/Kambaz/Courses/${cid}/Assignments` },
+    { label: "Quizzes", path: `/Kambaz/Courses/${cid}/Quizzes` },
+    { label: "Grades", path: `/Kambaz/Courses/${cid}/Grades` },
+    { label: "People", path: `/Kambaz/Courses/${cid}/People` },
+  ];
 
   return (
-    <div id="wd-courses-navigation" className="wd list-group fs-5 rounded-0">
-      <Link to="/Kambaz/Courses/1234/Home" 
-        id="wd-course-home-link"
-        className={`list-group-item border border-0 ${location.pathname.includes("/Home") ? "active" : ""}`}>
-        Home
-      </Link>
-      <Link to="/Kambaz/Courses/1234/Modules" 
-        id="wd-course-modules-link"
-        className={`list-group-item border border-0 ${location.pathname.includes("/Modules") ? "active" : ""}`}>
-        Modules
-      </Link>
-      <Link to="/Kambaz/Courses/1234/Piazza" 
-        id="wd-course-piazza-link"
-        className={`list-group-item border border-0 ${location.pathname.includes("/Piazza") ? "active" : ""}`}>
-        Piazza
-      </Link>
-      <Link to="/Kambaz/Courses/1234/Zoom" 
-        id="wd-course-zoom-link"
-        className={`list-group-item border border-0 ${location.pathname.includes("/Zoom") ? "active" : ""}`}>
-        Zoom Meetings
-      </Link>
-      <Link to="/Kambaz/Courses/1234/Assignments" 
-        id="wd-course-assignments-link"
-        className={`list-group-item border border-0 ${location.pathname.includes("/Assignments") ? "active" : ""}`}>
-        Assignments
-      </Link>
-      <Link to="/Kambaz/Courses/1234/Quizzes" 
-        id="wd-course-quizzes-link"
-        className={`list-group-item border border-0 ${location.pathname.includes("/Quizzes") ? "active" : ""}`}>
-        Quizzes
-      </Link>
-      <Link to="/Kambaz/Courses/1234/People" 
-        id="wd-course-people-link"
-        className={`list-group-item border border-0 ${location.pathname.includes("/People") ? "active" : ""}`}>
-        People
-      </Link>
+    <div id="wd-courses-navigation" className="list-group fs-5 rounded-0">
+      {links.map((link) => (
+        <Link
+          key={link.label}
+          to={link.path}
+          id={`wd-course-${link.label.toLowerCase()}-link`}
+          className={`list-group-item border border-0 ${
+            pathname.includes(link.label) ? "active" : ""
+          }`}
+        >
+          {link.label}
+        </Link>
+      ))}
     </div>
   );
 }
