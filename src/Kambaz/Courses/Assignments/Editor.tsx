@@ -1,36 +1,34 @@
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
+import * as db from "../../Database";
 
 export default function AssignmentEditor() {
+  const { cid, aid } = useParams(); // course id, assignment id
+
+  const assignment = db.assignments.find(
+    (assignment) => assignment._id === aid && assignment.course === cid
+  ); // get assignment
+
+  if (!assignment) {
+    return <p>Assignment not found.</p>;
+  }
+
   return (
     <Container className="p-4">
-      
       {/* assignment name field */}
       <Form.Group controlId="wd-name" className="mb-3">
         <Form.Label>Assignment Name</Form.Label>
-        <Form.Control type="text" defaultValue="A1" />
+        <Form.Control type="text" defaultValue={assignment.title} />
       </Form.Group>
 
       {/* description field */}
       <Form.Group controlId="wd-description" className="mb-3">
+        <div className="border p-3 rounded bg-white">
+          <p>{assignment.description}</p>
+        </div>
+      </Form.Group>
 
-  <div className="border p-3 rounded bg-white">
-    The assignment is <span className="text-danger">available online</span>.
-    <div>
-    Submit a link to the landing page of your Web application running on
-    Netlify.
-    </div>
-    The landing page should include the following:
-    <ul>
-      <li>Your full name and section</li>
-      <li>Links to each of the lab assignments</li>
-      <li>Link to the Kanbas application</li>
-      <li>Links to all relevant source code repositories</li>
-    </ul>
-    The Kanbas application should include a link to navigate back to the following page.
-  </div>
-</Form.Group>
-
-      {/* points, assignment group, display grade as */}
       {/* points */}
       <Form.Group className="mb-3">
         <Row className="align-items-center">
@@ -38,10 +36,11 @@ export default function AssignmentEditor() {
             <Form.Label>Points</Form.Label>
           </Col>
           <Col md={9}>
-            <Form.Control type="number" defaultValue="100" />
+            <Form.Control type="number" defaultValue={assignment.points} />
           </Col>
         </Row>
       </Form.Group>
+
       {/* assignment group */}
       <Form.Group className="mb-3">
         <Row className="align-items-center">
@@ -58,6 +57,7 @@ export default function AssignmentEditor() {
           </Col>
         </Row>
       </Form.Group>
+
       {/* display grade as */}
       <Form.Group className="mb-3">
         <Row className="align-items-center">
@@ -74,36 +74,7 @@ export default function AssignmentEditor() {
         </Row>
       </Form.Group>
 
-      {/* submission type */}
-      <Form.Group className="mb-3">
-        <Row className="align-items-start">
-          <Col md={3} className="text-end">
-            <Form.Label>Submission Type</Form.Label>
-          </Col>
-          <Col md={9}>
-            <div className="border p-3 rounded">
-              <Form.Group controlId="wd-submission-type">
-                <Form.Select defaultValue="Online">
-                  <option value="Online">Online</option>
-                  <option value="On Paper">On Paper</option>
-                  <option value="No Submission">No Submission</option>
-                </Form.Select>
-              </Form.Group>
-              {/* online entry options */}
-              <Form.Group className="mt-3">
-                <Form.Label className="fw-bold">Online Entry Options</Form.Label>
-                <Form.Check type="checkbox" id="wd-text-entry" label="Text Entry" />
-                <Form.Check type="checkbox" id="wd-website-url" label="Website URL" defaultChecked />
-                <Form.Check type="checkbox" id="wd-media-recordings" label="Media Recordings" />
-                <Form.Check type="checkbox" id="wd-student-annotation" label="Student Annotation" />
-                <Form.Check type="checkbox" id="wd-file-upload" label="File Uploads" />
-              </Form.Group>
-            </div>
-          </Col>
-        </Row>
-      </Form.Group>
-
-      {/* assign to + calendar due dates */}
+      {/* assign to */}
       <Form.Group className="mb-3">
         <Row className="align-items-start">
           <Col md={3} className="text-end">
@@ -112,9 +83,14 @@ export default function AssignmentEditor() {
           <Col md={9}>
             <div className="border p-3 rounded">
               <Form.Group controlId="wd-assign-to" className="mb-3">
-              <Form.Label><strong>Assign To</strong></Form.Label>
-                <div className="border rounded p-2 bg-light d-flex align-items-center" style={{ width: "fit-content" }}>
-                  <span className="px-2">Everyone</span>
+                <Form.Label>
+                  <strong>Assign To</strong>
+                </Form.Label>
+                <div
+                  className="border rounded p-2 bg-light d-flex align-items-center"
+                  style={{ width: "fit-content" }}
+                >
+                  <span className="px-2">{assignment.assignTo}</span>
                   <Button variant="light" className="border-0 p-0 ms-2" size="sm">
                     ✖
                   </Button>
@@ -122,21 +98,36 @@ export default function AssignmentEditor() {
               </Form.Group>
 
               <Form.Group controlId="wd-due-date" className="mb-3">
-                <Form.Label><strong>Due</strong></Form.Label>
-                <Form.Control type="datetime-local" defaultValue="2024-05-13T23:59" />
+                <Form.Label>
+                  <strong>Due</strong>
+                </Form.Label>
+                <Form.Control
+                  type="datetime-local"
+                  defaultValue={assignment.dueDate}
+                />
               </Form.Group>
 
               <Row>
                 <Col>
                   <Form.Group controlId="wd-available-from">
-                    <Form.Label><strong>Available from</strong></Form.Label>
-                    <Form.Control type="datetime-local" defaultValue="2024-05-06T00:00" />
+                    <Form.Label>
+                      <strong>Available from</strong>
+                    </Form.Label>
+                    <Form.Control
+                      type="datetime-local"
+                      defaultValue={assignment.availableFrom}
+                    />
                   </Form.Group>
                 </Col>
                 <Col>
                   <Form.Group controlId="wd-available-until">
-                    <Form.Label><strong>Until</strong></Form.Label>
-                    <Form.Control type="datetime-local" defaultValue="2024-05-20T00:00" />
+                    <Form.Label>
+                      <strong>Until</strong>
+                    </Form.Label>
+                    <Form.Control
+                      type="datetime-local"
+                      defaultValue={assignment.availableUntil}
+                    />
                   </Form.Group>
                 </Col>
               </Row>
@@ -145,10 +136,14 @@ export default function AssignmentEditor() {
         </Row>
       </Form.Group>
 
-      {/* cancel and aave buttons */}
-      <div className="d-flex justify-content-end">
-        <Button variant="secondary" className="me-2">Cancel</Button>
-        <Button variant="danger">Save</Button>
+      {/* cancel and save buttons */}
+      <div className="d-flex justify-content-end mt-3">
+        <Link to={`/Kambaz/Courses/${cid}/Assignments`} className="btn btn-secondary me-2">
+          Cancel
+        </Link>
+        <Link to={`/Kambaz/Courses/${cid}/Assignments`} className="btn btn-danger">
+          Save
+        </Link>
       </div>
     </Container>
   );
