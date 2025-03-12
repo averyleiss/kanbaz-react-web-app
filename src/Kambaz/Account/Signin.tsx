@@ -1,22 +1,31 @@
-import { Link } from "react-router-dom";
-import { Button, Container, Form } from "react-bootstrap";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { setCurrentUser } from "./reducer";
+import { useDispatch } from "react-redux";
+import * as db from "../Database";
+import { Button, FormControl } from "react-bootstrap";
 
 export default function Signin() {
+  const [credentials, setCredentials] = useState<any>({});
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const signin = () => {
+    const user = db.users.find(
+      (u: any) => u.username === credentials.username && u.password === credentials.password);
+    if (!user) return;
+    dispatch(setCurrentUser(user));
+    navigate("/Kambaz/Dashboard");
+  };
   return (
-    <Container className="p-5">
-    <h3 className="mb-4">Sign In</h3>
-    <Form.Group controlId="wd-username" className="mb-3">
-      <Form.Control type="text" placeholder="Username" />
-    </Form.Group>
-    <Form.Group controlId="wd-password" className="mb-3">
-      <Form.Control type="password" placeholder="Password" />
-    </Form.Group>
-    <Button id="wd-signup-btn" variant="primary" className="w-100 mb-3">
-      Sign In
-    </Button>
-       <div>
-      <Link to="/Kambaz/Account/Signup">Sign Up</Link>
-      </div>
-    </Container>
-   );
-  }
+    <div id="wd-signin-screen">
+      <h1>Sign in</h1>
+      <FormControl defaultValue={credentials.username}
+             onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
+             className="mb-2" placeholder="username" id="wd-username" />
+      <FormControl defaultValue={credentials.password}
+             onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+             className="mb-2" placeholder="password" type="password" id="wd-password" />
+      <Button onClick={signin} id="wd-signin-btn" className="w-100" > Sign in </Button>
+      <Link id="wd-signup-link" to="/Kambaz/Account/Signup"> Sign up </Link>
+    </div>
+);}

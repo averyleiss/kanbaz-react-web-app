@@ -1,50 +1,18 @@
-import { FaPlus } from "react-icons/fa6";
+
+import { FaTrash } from "react-icons/fa";
 import GreenCheckmark from "./GreenCheckmark";
-import { Button, Dropdown } from "react-bootstrap";
-import { MdDoNotDisturbAlt } from "react-icons/md";
+import { BsPlus } from "react-icons/bs";
+import { IoEllipsisVertical } from "react-icons/io5";
+import { FaPencil } from "react-icons/fa6";
 
-export default function ModulesControls() {
-  return (
-    <div id="wd-modules-controls" className="text-nowrap">
-      {/* add Module Button */}
-      <Button variant="danger" size="lg" className="me-1 float-end" id="wd-add-module-btn">
-        <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
-        Module
-      </Button>
-
-      {/* publish all dropdown */}
-      <Dropdown className="float-end me-2">
-        <Dropdown.Toggle variant="secondary" size="lg" id="wd-publish-all-btn">
-          <GreenCheckmark /> Publish All
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
-          <Dropdown.Item id="wd-publish-all">
-            <GreenCheckmark /> Publish All
-          </Dropdown.Item>
-          <Dropdown.Item id="wd-publish-all-modules-and-items">
-            <GreenCheckmark /> Publish all modules and items
-          </Dropdown.Item>
-          <Dropdown.Item id="wd-publish-modules-only">
-            <GreenCheckmark /> Publish modules only
-          </Dropdown.Item>
-          <Dropdown.Divider />
-          <Dropdown.Item id="wd-unpublish-all-modules-and-items">
-          <MdDoNotDisturbAlt /> Unpublish all modules and items 
-          </Dropdown.Item>
-          <Dropdown.Item id="wd-unpublish-modules-only">
-          <MdDoNotDisturbAlt /> Unpublish modules only
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-
-      {/* view progress &cCollapse all buttons */}
-      <Button variant="secondary" size="lg" className="me-2 float-end" id="wd-view-progress">
-        View Progress
-      </Button>
-      <Button variant="secondary" size="lg" className="me-2 float-end" id="wd-collapse-all">
-        Collapse All
-      </Button>
-    </div>
-  );
-}
-
+export default function ModuleControlButtons(
+  { moduleId, deleteModule, editModule }: { 
+    moduleId: string; deleteModule: (moduleId: string) => void; editModule: (moduleId: string) => void } ) {
+    return (
+      <div className="float-end">
+        <FaPencil onClick={() => editModule(moduleId)} className="text-primary me-3" />
+        <FaTrash className="text-danger me-2 mb-1" onClick={() => deleteModule(moduleId)}/>
+        <GreenCheckmark />
+        <BsPlus className="fs-1" />
+        <IoEllipsisVertical className="fs-4" />
+      </div> );}
