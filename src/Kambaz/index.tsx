@@ -3,6 +3,7 @@ import KambazNavigation from "./Navigation";
 import Dashboard from "./Dashboard/Dashboard";
 import Courses from "./Courses";
 import Account from "./Account";
+import ProtectedRoute from "./Account/ProtectedRoute";
 import "./styles.css"
 import * as db from "./Database";
 import { useState } from "react";
@@ -22,13 +23,7 @@ export default function Kambaz() {
   };
   const updateCourse = () => {
     setCourses(
-      courses.map((c) => {
-        if (c._id === course._id) {
-          return course;
-        } else {
-          return c;
-        }
-      })
+      courses.map((c) => (c._id === course._id ? course : c))
     );
   };
 
@@ -38,20 +33,31 @@ export default function Kambaz() {
       <div className="wd-main-content-offset p-3">
         <Routes>
           <Route path="/" element={<Navigate to="Account" />} />
-          <Route path="/Account/*" element={<Account />} />
-          <Route path="/Dashboard" element={           
-            <Dashboard
-              courses={courses}
-              course={course}
-              setCourse={setCourse}
-              addNewCourse={addNewCourse}
-              deleteCourse={deleteCourse}
-              updateCourse={updateCourse}/>
-            } />
-          <Route path="/Courses/:cid/*" element={<Courses courses={courses} />} />
-          <Route path="/Calendar" element={<h1>Calendar</h1>} />
-          <Route path="/Inbox" element={<h1>Inbox</h1>} />
+          <Route path="Account/*" element={<Account />} />
+
+          <Route path="Dashboard" element={
+            <ProtectedRoute>
+              <Dashboard
+                courses={courses}
+                course={course}
+                setCourse={setCourse}
+                addNewCourse={addNewCourse}
+                deleteCourse={deleteCourse}
+                updateCourse={updateCourse}
+              />
+            </ProtectedRoute>
+          } />
+
+          <Route path="Courses/:cid/*" element={
+            <ProtectedRoute>
+              <Courses courses={courses} />
+            </ProtectedRoute>
+          } />
+
+          <Route path="Calendar" element={<h1>Calendar</h1>} />
+          <Route path="Inbox" element={<h1>Inbox</h1>} />
         </Routes>
       </div>
     </div>
-);}
+  );
+}

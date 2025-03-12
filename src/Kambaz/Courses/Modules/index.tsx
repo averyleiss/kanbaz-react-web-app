@@ -1,77 +1,73 @@
 import { useParams } from "react-router";
-import { ListGroup, Row, Col, Button, Modal, FormControl, Dropdown } from "react-bootstrap";
+import { ListGroup, Row, Col, Button, FormControl, Modal } from "react-bootstrap";
 import { BsGripVertical } from "react-icons/bs";
 import { FaPlus } from "react-icons/fa6";
-import { useState } from "react";
+import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addModule, editModule, updateModule, deleteModule } from "./reducer";
 import ModuleControlButtons from "./ModulesControls";
 import LessonControlButtons from "./LessonControlButtons";
-import GreenCheckmark from "./GreenCheckmark";
+
 
 export default function Modules() {
   const { cid } = useParams();
   const [moduleName, setModuleName] = useState("");
-  const [showAddModal, setShowAddModal] = useState(false); 
+  const [showAddModal, setShowAddModal] = useState(false);
   const { modules } = useSelector((state: any) => state.modulesReducer);
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
   const dispatch = useDispatch();
+
+  const isFaculty = currentUser.role === "FACULTY"; 
 
   return (
     <div className="container-fluid p-4">
       <Row>
         <Col md={9}>
-          <div className="d-flex justify-content-start mb-3">
-
-            <Dropdown>
-              <Dropdown.Toggle variant="secondary" className="d-flex align-items-center">
-                <GreenCheckmark className="me-2" />
-                Publish All
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item>Publish All</Dropdown.Item>
-                <Dropdown.Item>Unpublish All</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-
-
-            <Button
-              variant="danger"
-              className="ms-2 d-flex align-items-center"
-              onClick={() => setShowAddModal(true)}
-            >
-              <FaPlus className="me-2" /> Module
-            </Button>
-          </div>
-
-
-          <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
-            <Modal.Header closeButton>
-              <Modal.Title>Add Module</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <FormControl
-                placeholder="Enter module name"
-                value={moduleName}
-                onChange={(e) => setModuleName(e.target.value)}
-              />
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={() => setShowAddModal(false)}>
-                Cancel
-              </Button>
+          
+          {isFaculty && (
+            <div className="d-flex justify-content-start mb-3">
               <Button
                 variant="danger"
-                onClick={() => {
-                  dispatch(addModule({ name: moduleName, course: cid }));
-                  setModuleName("");
-                  setShowAddModal(false);
-                }}
+                className="ms-2 d-flex align-items-center"
+                onClick={() => setShowAddModal(true)}
               >
-                Add Module
+                <FaPlus className="me-2" /> Module
               </Button>
-            </Modal.Footer>
-          </Modal>
+            </div>
+          )}
 
+          
+          {isFaculty && (
+            <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
+              <Modal.Header closeButton>
+                <Modal.Title>Add Module</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <FormControl
+                  placeholder="Enter module name"
+                  value={moduleName}
+                  onChange={(e) => setModuleName(e.target.value)}
+                />
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={() => setShowAddModal(false)}>
+                  Cancel
+                </Button>
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    dispatch(addModule({ name: moduleName, course: cid }));
+                    setModuleName("");
+                    setShowAddModal(false);
+                  }}
+                >
+                  Add Module
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          )}
+
+          
           <ListGroup className="rounded-0" id="wd-modules">
             {modules.length > 0 ? (
               modules
@@ -85,7 +81,7 @@ export default function Modules() {
                       <div>
                         <BsGripVertical className="me-2 fs-3" />
                         {!module.editing && module.name}
-                        {module.editing && (
+                        {module.editing && isFaculty && (
                           <FormControl
                             className="w-50 d-inline-block"
                             onChange={(e) =>
@@ -101,16 +97,20 @@ export default function Modules() {
                         )}
                       </div>
 
-                      <ModuleControlButtons
-                        moduleId={module._id}
-                        deleteModule={() => dispatch(deleteModule(module._id))}
-                        editModule={() => dispatch(editModule(module._id))}
-                      />
+                      
+                      {isFaculty && (
+                        <ModuleControlButtons
+                          moduleId={module._id}
+                          deleteModule={() => dispatch(deleteModule(module._id))}
+                          editModule={() => dispatch(editModule(module._id))}
+                        />
+                      )}
                     </div>
 
+                    
                     {module.lessons && module.lessons.length > 0 ? (
                       <ListGroup className="wd-lessons rounded-0">
-                        {module.lessons.map((lesson) => (
+                        {module.lessons.map((lesson: { _id: Key | null | undefined; name: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; }) => (
                           <ListGroup.Item
                             key={lesson._id}
                             className="wd-lesson p-3 ps-1 d-flex align-items-center justify-content-between"
