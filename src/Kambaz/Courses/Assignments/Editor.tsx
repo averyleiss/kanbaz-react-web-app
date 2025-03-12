@@ -11,9 +11,8 @@ export default function AssignmentEditor() {
   const dispatch = useDispatch();
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
 
-  // get assignment (if editing)
+  // Get assignment (if editing)
   const existingAssignment = assignments.find((a: any) => a._id === aid && a.course === cid);
-
 
   const [assignment, setAssignment] = useState(
     existingAssignment || {
@@ -23,24 +22,22 @@ export default function AssignmentEditor() {
       points: 100,
       dueDate: "",
       availableFrom: "",
-      availableUntil: "",
+      availableUntil: "",  // ✅ New field added
       course: cid,
     }
   );
 
-  
   const handleChange = (field: string, value: string | number) => {
     setAssignment((prev: any) => ({ ...prev, [field]: value }));
   };
 
-  
   const handleSave = () => {
     if (existingAssignment) {
       dispatch(updateAssignment(assignment));
     } else {
-      dispatch(addAssignment(assignment)); 
+      dispatch(addAssignment(assignment));
     }
-    navigate(`/Kambaz/Courses/${cid}/Assignments`); 
+    navigate(`/Kambaz/Courses/${cid}/Assignments`);
   };
 
   return (
@@ -89,6 +86,16 @@ export default function AssignmentEditor() {
           type="datetime-local"
           value={assignment.dueDate}
           onChange={(e) => handleChange("dueDate", e.target.value)}
+        />
+      </Form.Group>
+
+      {/* Available Until Date (NEW) */}
+      <Form.Group className="mb-3">
+        <Form.Label>Available Until</Form.Label>
+        <Form.Control
+          type="datetime-local"
+          value={assignment.availableUntil}
+          onChange={(e) => handleChange("availableUntil", e.target.value)}
         />
       </Form.Group>
 

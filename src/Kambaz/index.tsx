@@ -38,7 +38,6 @@ export default function Kambaz() {
           <Route path="Dashboard" element={
             <ProtectedRoute>
               <Dashboard
-                courses={courses}
                 course={course}
                 setCourse={setCourse}
                 addNewCourse={addNewCourse}
@@ -48,6 +47,7 @@ export default function Kambaz() {
             </ProtectedRoute>
           } />
 
+          
           <Route path="Courses/:cid/*" element={
             <ProtectedRoute>
               <Courses courses={courses} />

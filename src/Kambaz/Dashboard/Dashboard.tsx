@@ -13,14 +13,17 @@ export default function Dashboard(
   }
 ) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const { courses, enrollments } = db;
+  const { courses, enrollments } = db; 
 
-  //  user is signed in
+  console.log("Current User:", currentUser);
+  console.log("All Courses:", courses);
+  console.log("Enrollments:", enrollments);
+
   if (!currentUser || !currentUser._id) {
     return <h2>Please Sign In to View Courses</h2>;
   }
 
-  // filter courses the user is enrolled in
+  // filter enrolled courses (only courses for the loggedin user)
   const enrolledCourses = courses.filter((course) =>
     enrollments.some(
       (enrollment) =>
@@ -28,38 +31,34 @@ export default function Dashboard(
     )
   );
 
-  // see if user is faculty
-  const isFaculty = currentUser.role === "FACULTY";
+  console.log("Filtered Courses:", enrolledCourses);
 
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1>
       <hr />
 
-     
-      {isFaculty && (
-        <>
-          <h5>New Course
-            <button className="btn btn-primary float-end"
-                    id="wd-add-new-course-click"
-                    onClick={addNewCourse} >
-              Add
-            </button>
-          </h5>
-          <br />
-          <input value={course.name} className="form-control mb-2"
-                onChange={(e) => setCourse({ ...course, name: e.target.value })} />
-          <textarea value={course.description} className="form-control"
-                onChange={(e) => setCourse({ ...course, description: e.target.value })} />
-          <hr />
-        </>
-      )}
 
+      <h5>New Course
+        <button className="btn btn-primary float-end"
+                id="wd-add-new-course-click"
+                onClick={addNewCourse} >
+          Add
+        </button>
+      </h5>
+      <br />
+      <input value={course.name} className="form-control mb-2"
+             onChange={(e) => setCourse({ ...course, name: e.target.value })} />
+      <textarea value={course.description} className="form-control"
+                onChange={(e) => setCourse({ ...course, description: e.target.value })} />
+
+      <hr />
       <h2 id="wd-dashboard-published">
         Published Courses ({enrolledCourses.length})
       </h2>
       <hr />
 
+      {/* Enrolled Courses */}
       <div id="wd-dashboard-courses">
         <Row xs={1} md={5} className="g-4">
           {enrolledCourses.map((course) => (
@@ -76,23 +75,17 @@ export default function Dashboard(
                       {course.description}
                     </Card.Text>
                     <Button variant="primary"> Go </Button>
-
-                
-                    {isFaculty && (
-                      <>
-                        <button onClick={(event) => {
-                          event.preventDefault();
-                          deleteCourse(course._id);
-                        }} className="btn btn-danger float-end"
-                          id="wd-delete-course-click">
-                          Delete
-                        </button>
-                        <button className="btn btn-warning float-end me-2"
-                          onClick={updateCourse} id="wd-update-course-click">
-                          Update
-                        </button>
-                      </>
-                    )}
+                    <button onClick={(event) => {
+                      event.preventDefault();
+                      deleteCourse(course._id);
+                    }} className="btn btn-danger float-end"
+                      id="wd-delete-course-click">
+                      Delete
+                    </button>
+                    <button className="btn btn-warning float-end me-2"
+                      onClick={updateCourse} id="wd-update-course-click">
+                      Update
+                    </button>
                   </Card.Body>
                 </Link>
               </Card>

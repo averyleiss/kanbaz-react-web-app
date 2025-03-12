@@ -16,6 +16,8 @@ export default function Assignments() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const currentUser = useSelector((state: any) => state.accountReducer.currentUser);
+
 
   
   const courseAssignments = assignments.filter((a: any) => a.course === cid);
@@ -54,12 +56,14 @@ export default function Assignments() {
               <Button variant="secondary" className="me-2">
                 <FaPlus className="me-2" /> Group
               </Button>
-              <Button
-                variant="danger"
-                onClick={() => navigate(`/Kambaz/Courses/${cid}/Assignments/new`)} // ✅ Navigate to editor
-              >
-                <FaPlus className="me-2" /> Assignment
-              </Button>
+              {(currentUser.role === "FACULTY" || currentUser.role === "TA") && (
+                <Button
+                  variant="danger"
+                  onClick={() => navigate(`/Kambaz/Courses/${cid}/Assignments/new`)}
+                >
+                  <FaPlus className="me-2" /> Assignment
+                </Button>
+              )}
             </div>
           </div>
 
@@ -97,19 +101,20 @@ export default function Assignments() {
                           </a>
                         </div>
                         <div className="text-muted">
-                          <strong>Due:</strong> {assignment.dueDate} | {assignment.points} pts
+                          <strong>Due:</strong> {assignment.dueDate} | <strong>Available Until:</strong> {assignment.availableUntil} | {assignment.points} pts
                         </div>
                       </div>
 
                       {/* Delete Button (Trash Icon) */}
-                      <Button
-                        variant="link"
-                        className="text-danger p-3 border-0 ms-3"
-                        onClick={() => handleDeleteClick(assignment)}
-                      >
-                        <FaTrash className="fs-6" />
-                      </Button>
-
+                      {(currentUser.role === "FACULTY" || currentUser.role === "TA") && (
+                        <Button
+                          variant="link"
+                          className="text-danger p-3 border-0 ms-3"
+                          onClick={() => handleDeleteClick(assignment)}
+                        >
+                          <FaTrash className="fs-6" />
+                        </Button>
+                      )}
                       <LessonControlButtons className="ms-auto" />
                     </ListGroup.Item>
                   ))}
@@ -121,7 +126,7 @@ export default function Assignments() {
           </ListGroup>
         </Col>
       </Row>
-      
+
       <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Delete</Modal.Title>
