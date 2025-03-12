@@ -7,6 +7,7 @@ export default function AccountNavigation() {
 
   return (
     <div id="wd-account-navigation" className="wd list-group fs-5 rounded-0">
+
      
       {!currentUser && (
         <>
@@ -37,6 +38,28 @@ export default function AccountNavigation() {
           Profile
         </Link>
       )}
+
+      <Link
+        to="/Kambaz/Account/Signin"
+        id="wd-account-signin-link"
+        className={`list-group-item border-0 ${location.pathname.includes("/Signin") ? "active" : ""}`}>
+        Sign In
+      </Link>
+      <Link
+        to="/Kambaz/Account/Signup"
+        id="wd-account-signup-link"
+        className={`list-group-item border-0 ${location.pathname.includes("/Signup") ? "active" : ""}`}
+      >
+        Sign Up
+      </Link>
+      <Link
+        to="/Kambaz/Account/Profile"
+        id="wd-account-profile-link"
+        className={`list-group-item border-0 ${location.pathname.includes("/Profile") ? "active" : ""}`}
+      >
+        Profile
+      </Link>
+
     </div>
   );
 }
