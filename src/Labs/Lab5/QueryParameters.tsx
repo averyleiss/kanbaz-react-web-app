@@ -4,9 +4,11 @@ import { FormControl } from "react-bootstrap";
 
 const REMOTE_SERVER = import.meta.env.VITE_REMOTE_SERVER;
 
+export default function QueryParameters() {
 const [a, setA] = useState("34");
 const [b, setB] = useState("23");
 
+return (
 <div id="wd-query-parameters">
   <h3>Query Parameters</h3>
   <FormControl id="wd-query-parameter-a"
@@ -35,3 +37,5 @@ const [b, setB] = useState("23");
   </a>
   <hr />
 </div>
+
+)};
