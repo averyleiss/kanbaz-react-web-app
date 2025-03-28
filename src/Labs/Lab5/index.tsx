@@ -4,7 +4,7 @@ import WorkingWithObjects from "./WorkingWithObjects";
 import WorkingWithArrays from "./WorkingWithArrays";
 import QueryParameters from "./QueryParameters";
 import HttpClient from "./HttpClient";
-import WorkingWithObjectsAsynchronously from "./WorkingWithObjectsAsynchronously";
+import WorkingWithObjectsAsynchronously from "./WorkingWithArraysAsynchronously";
 
 
 
