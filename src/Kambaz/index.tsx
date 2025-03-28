@@ -8,6 +8,7 @@ import "./styles.css"
 import * as db from "./Database";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import Session from "./Account/Session";
 
 export default function Kambaz() {
   const [courses, setCourses] = useState<any[]>(db.courses);
@@ -28,6 +29,7 @@ export default function Kambaz() {
   };
 
   return (
+    <Session>
     <div id="wd-kambaz">
       <KambazNavigation />
       <div className="wd-main-content-offset p-3">
@@ -59,5 +61,6 @@ export default function Kambaz() {
         </Routes>
       </div>
     </div>
+    </Session>
   );
 }
