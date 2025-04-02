@@ -1,37 +1,32 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Row, Col, Card, Button } from "react-bootstrap";
-import * as db from "../Database";
 
 export default function Dashboard(
-  { course, setCourse, addNewCourse, deleteCourse, updateCourse }: {
+  { course, 
+    setCourse, 
+    addNewCourse, 
+    deleteCourse, 
+    updateCourse,
+    courses,
+   }: {
     course: any;
     setCourse: (course: any) => void;
     addNewCourse: () => void;
     deleteCourse: (course: any) => void;
     updateCourse: () => void;
+    courses: any[];
   }
 ) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const { courses, enrollments } = db; 
+  
 
   console.log("Current User:", currentUser);
-  console.log("All Courses:", courses);
-  console.log("Enrollments:", enrollments);
 
   if (!currentUser || !currentUser._id) {
     return <h2>Please Sign In to View Courses</h2>;
   }
 
-  // filter enrolled courses (only courses for the loggedin user)
-  const enrolledCourses = courses.filter((course) =>
-    enrollments.some(
-      (enrollment) =>
-        enrollment.user === currentUser._id && enrollment.course === course._id
-    )
-  );
-
-  console.log("Filtered Courses:", enrolledCourses);
 
   return (
     <div id="wd-dashboard">
@@ -54,14 +49,14 @@ export default function Dashboard(
 
       <hr />
       <h2 id="wd-dashboard-published">
-        Published Courses ({enrolledCourses.length})
+        Published Courses ({courses.length})
       </h2>
       <hr />
 
       {/* Enrolled Courses */}
       <div id="wd-dashboard-courses">
         <Row xs={1} md={5} className="g-4">
-          {enrolledCourses.map((course) => (
+          {courses.map((course) => (
             <Col key={course._id} className="wd-dashboard-course" style={{ width: "300px" }}>
               <Card>
                 <Link to={`/Kambaz/Courses/${course._id}/Home`}

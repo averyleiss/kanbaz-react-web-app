@@ -1,48 +1,70 @@
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { addAssignment, updateAssignment } from "./reducer";
-import { v4 as uuidv4 } from "uuid";
-import { useState } from "react";
+import { addAssignment, updateAssignment as updateAssignmentAction } from "./reducer";
+import { useState, useEffect } from "react";
+import * as assignmentClient from "./client";
 
 export default function AssignmentEditor() {
-  const { cid, aid } = useParams(); 
+  const { cid, aid } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
 
-  // Get assignment (if editing)
-  const existingAssignment = assignments.find((a: any) => a._id === aid && a.course === cid);
+  const [assignment, setAssignment] = useState<any>({
+    title: "",
+    description: "",
+    points: 100,
+    dueDate: "",
+    availableFrom: "",
+    availableUntil: "",
+    course: cid,
+  });
 
-  const [assignment, setAssignment] = useState(
-    existingAssignment || {
-      _id: uuidv4(),
-      title: "",
-      description: "",
-      points: 100,
-      dueDate: "",
-      availableFrom: "",
-      availableUntil: "",  // ✅ New field added
-      course: cid,
-    }
-  );
+  const isEditing = !!aid;
+
+  useEffect(() => {
+    const loadAssignment = async () => {
+      const localAssignment = assignments.find(
+        (a: any) => a._id === aid && a.course === cid
+      );
+
+      if (localAssignment) {
+        setAssignment(localAssignment);
+      } else if (aid) {
+        try {
+          const fetched = await assignmentClient.findAssignmentById(aid);
+          setAssignment(fetched);
+        } catch (err) {
+          console.error("Failed to fetch assignment:", err);
+        }
+      }
+    };
+
+    loadAssignment();
+  }, [aid, cid, assignments]);
 
   const handleChange = (field: string, value: string | number) => {
     setAssignment((prev: any) => ({ ...prev, [field]: value }));
   };
 
-  const handleSave = () => {
-    if (existingAssignment) {
-      dispatch(updateAssignment(assignment));
+  const handleSave = async () => {
+    if (!cid) return;
+
+    if (isEditing) {
+      const updated = await assignmentClient.updateAssignment(assignment._id, assignment);
+      dispatch(updateAssignmentAction(updated));
     } else {
-      dispatch(addAssignment(assignment));
+      const created = await assignmentClient.createAssignment(cid, assignment);
+      dispatch(addAssignment(created));
     }
+
     navigate(`/Kambaz/Courses/${cid}/Assignments`);
   };
 
   return (
     <Container className="p-4">
-      {/* Assignment Name Field */}
       <Form.Group controlId="wd-name" className="mb-3">
         <Form.Label>Assignment Name</Form.Label>
         <Form.Control
@@ -52,7 +74,6 @@ export default function AssignmentEditor() {
         />
       </Form.Group>
 
-      {/* Description Field */}
       <Form.Group controlId="wd-description" className="mb-3">
         <Form.Label>Description</Form.Label>
         <Form.Control
@@ -63,7 +84,6 @@ export default function AssignmentEditor() {
         />
       </Form.Group>
 
-      {/* Points */}
       <Form.Group className="mb-3">
         <Row>
           <Col md={3} className="text-end">
@@ -79,7 +99,6 @@ export default function AssignmentEditor() {
         </Row>
       </Form.Group>
 
-      {/* Due Date */}
       <Form.Group className="mb-3">
         <Form.Label>Due Date</Form.Label>
         <Form.Control
@@ -89,7 +108,6 @@ export default function AssignmentEditor() {
         />
       </Form.Group>
 
-      {/* Available Until Date (NEW) */}
       <Form.Group className="mb-3">
         <Form.Label>Available Until</Form.Label>
         <Form.Control
@@ -99,7 +117,6 @@ export default function AssignmentEditor() {
         />
       </Form.Group>
 
-      {/* Cancel and Save Buttons */}
       <div className="d-flex justify-content-end mt-3">
         <Button variant="secondary" onClick={() => navigate(`/Kambaz/Courses/${cid}/Assignments`)}>
           Cancel
