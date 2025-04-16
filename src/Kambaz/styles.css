@@ -56,4 +56,26 @@ body * {  font-family: Arial, Helvetica, sans-serif;  }
   border-left: 3px solid green !important;
 }
 
+/* Remove borders on the entire list */
+.list-group {
+  border: none;
+}
+
+/* remove each item’s border and rounded corners */
+.list-group-item {
+  border: none;
+  border-radius: 0;
+}
+
+/*  “active” item show only the black bar on the left*/
+.list-group-item.active {
+  background-color: transparent;
+  border-left: 3px solid black;
+  color: black;
+}
+
+/* non-active items red text: */
+.list-group-item {
+  color: red;
+}
   
