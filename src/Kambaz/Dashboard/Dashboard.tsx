@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Row, Col, Card, Button } from "react-bootstrap";
+//import { enrollInCourse } from "../Courses/enrollmentReducer";
+//import { Dispatch, SetStateAction } from "react";
 
 export default function Dashboard(
   { course, 
@@ -9,13 +11,17 @@ export default function Dashboard(
     deleteCourse, 
     updateCourse,
     courses,
+    // enrolling,
+    // setEnrolling,
    }: {
     course: any;
     setCourse: (course: any) => void;
     addNewCourse: () => void;
     deleteCourse: (course: any) => void;
-    updateCourse: () => void;
+    updateCourse: (course: any) => Promise<any>;
     courses: any[];
+    // enrolling: boolean;
+    // setEnrolling: Dispatch<SetStateAction<boolean>>;
   }
 ) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
@@ -31,6 +37,15 @@ export default function Dashboard(
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1>
+      {/* <div className="mb-3">
+        <Button
+          variant={enrolling ? "secondary" : "primary"}
+          onClick={() => setEnrolling(!enrolling)}
+        >
+          {enrolling ? "Show Enrolled Only" : "Show All Courses"}
+        </Button>
+      </div> */}
+
       <hr />
 
 
@@ -69,6 +84,18 @@ export default function Dashboard(
                     <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>
                       {course.description}
                     </Card.Text>
+                     {/* If viewing enrolled-only, hide the “Go” button for not enrolled
+                      {course.enrolled ? (
+                        <Button variant="primary">Go</Button>
+                      ) : (
+                        <Button
+                          variant="outline-success"
+                          onClick={() => enrollInCourse(course._id)}
+                        >
+                          Enroll
+                        </Button>
+                      )} */}
+
                     <Button variant="primary"> Go </Button>
                     <button onClick={(event) => {
                       event.preventDefault();
@@ -77,10 +104,27 @@ export default function Dashboard(
                       id="wd-delete-course-click">
                       Delete
                     </button>
-                    <button className="btn btn-warning float-end me-2"
-                      onClick={updateCourse} id="wd-update-course-click">
-                      Update
-                    </button>
+                    <button 
+                        className="btn btn-warning float-end me-2" // window way worked better 
+                        id="wd-update-course-click"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+
+                          
+                          const newName = window.prompt("New course name:", course.name);
+                          if (newName == null) return;                     // user cancelled
+
+                          
+                          const newDesc = window.prompt("New description:", course.description);
+                          if (newDesc == null) return;                     // user cancelled
+
+                          updateCourse({ ...course, name: newName, description: newDesc });
+                        }}
+                      >
+                        Update
+                      </button>
+                      
                   </Card.Body>
                 </Link>
               </Card>

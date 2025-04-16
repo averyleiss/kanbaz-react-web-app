@@ -7,18 +7,23 @@ import ProtectedRoute from "./Account/ProtectedRoute";
 import "./styles.css"
 import { useEffect, useState } from "react";
 import Session from "./Account/Session";
-import * as client from "./Courses/client";
 import { useSelector } from "react-redux";
 import * as userClient from "./Account/client";
 import * as courseClient from "./Courses/client";
 
+// because I didn't have enrollments in a5, i could not get
+// it to work here in a6. I implemented some of it, 
+// in hopes to figure it out, but i fear i'm too far gone
+// for that. that is why you see some enrollment things
+// commented out throughout my code base.
+
 export default function Kambaz() {
   const [courses, setCourses] = useState<any[]>([]);
-
   const { currentUser } = useSelector((state: any) => state.accountReducer);
+  
   const fetchCourses = async () => {
         try {
-          const courses = await client.fetchAllCourses();
+          const courses = await courseClient.fetchAllCourses();
           setCourses(courses);
         } catch (error) {
           console.error(error);
@@ -33,20 +38,23 @@ export default function Kambaz() {
     _id: "1234", name: "New Course", number: "New Number",
     startDate: "2023-09-10", endDate: "2023-12-15", description: "New Description",
   });
+
   const addNewCourse = async () => {
     const newCourse = await userClient.createCourse(course);
     setCourses([ ...courses, newCourse ]);
   };
+
   const deleteCourse = async (courseId: string) => {
   //  const status = await courseClient.deleteCourse(courseId);
     setCourses(courses.filter((course) => course._id !== courseId));
   };
-  const updateCourse = async () => {
-    await courseClient.updateCourse(course);
-    setCourses(
-      courses.map((c) => (c._id === course._id ? course : c))
-    );
+
+  const updateCourse = async (courseToUpdate: any) => {
+    await courseClient.updateCourse(courseToUpdate);
+    await fetchCourses();
   };
+
+  
 
   return (
     <Session>
